@@ -37,14 +37,20 @@ I then explored different color spaces and different `skimage.hog()` parameters 
       feature_image = cv2.cvtColor(image, cv2.COLOR_RGB2YCrCb)
 ```
 
-In cell 4, I tested the HOG feature using the `YCrCb` color space and HOG parameters `pixels_per_cell=(8, 8)` and `cells_per_block=(2, 2)`:
+In cell 4, I tested the HOG feature using the HOG parameters `orient = 8`, `pixels_per_cell=(8, 8)` and `cells_per_block=(2, 2)`:
 
 
 ![alt text][image2]
 
 ####2. Explain how you settled on your final choice of HOG parameters.
 
-I tried various combinations of parameters and...
+I tried different sets of parameters and finalized with colorspace='YCrCb', orientations=8, pixels_per_cell=(8, 8) and cells_per_block=(2, 2) and hog_channel = All. I had a few different experimentations as follows
+
+| Color Space   | Orientations  | Pixels_per_cell| Cells_per_block| HOG channel| Accuracy |
+| ------------- |:-------------:| -----:| -------------: |:-------------:| -----------:|
+| N/A    | 9| 8 | 2     | 0 | 0.92 | 
+| YUV    | 8| 8 | 2     | 0 | 0.96 | 
+| YCrCb | 8| 7 | 2     | 0 | 0.99 | 
 
 ####3. Describe how (and identify where in your code) you trained a classifier using your selected HOG features (and color features if you used them).
 

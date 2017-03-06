@@ -5,13 +5,11 @@ The goal of this project is to perform a Histogram of Oriented Gradients (HOG) f
 The labeled data for vehicle and non-vehicle examples to train the classifier come from a combination of the GTI vehicle image database, the KITTI vision benchmark suite, and examples extracted from the project video itself. 
 
 [//]: # (Image References)
-[image1]: ./examples/car_not_car.png
-[image2]: ./examples/HOG_example.jpg
-[image3]: ./examples/sliding_windows.jpg
-[image4]: ./examples/sliding_window.jpg
-[image5]: ./examples/bboxes_and_heat.png
-[image6]: ./examples/labels_map.png
-[image7]: ./examples/output_bboxes.png
+[image1]: ./examples/data.png
+[image2]: ./examples/HOG.jpg
+[image3]: ./examples/sliding-window.jpg
+[image4]: ./examples/detected-window.jpg
+[image5]: ./examples/heatmap.png
 [video1]: ./project_video.mp4
 
 
@@ -19,13 +17,26 @@ The labeled data for vehicle and non-vehicle examples to train the classifier co
 
 ####1. Explain how (and identify where in your code) you extracted HOG features from the training images.
 
-The code for this step is contained in the first code cell of the IPython notebook (or in lines # through # of the file called `some_file.py`).  
-
-I started by reading in all the `vehicle` and `non-vehicle` images.  Here is an example of one of each of the `vehicle` and `non-vehicle` classes:
+I started by reading in all the `vehicle` and `non-vehicle` images in cell 2. I defined a function data_look(car_list, notcar_list) for exploring the data. Here is an example of one of each of the `vehicle` and `non-vehicle` classes:
 
 ![alt text][image1]
 
-I then explored different color spaces and different `skimage.hog()` parameters (`orientations`, `pixels_per_cell`, and `cells_per_block`).  I grabbed random images from each of the two classes and displayed them to get a feel for what the `skimage.hog()` output looks like.
+I then explored different color spaces and different `skimage.hog()` parameters (`orientations`, `pixels_per_cell`, and `cells_per_block`) in functions get_hog_features() and extract_features(), specifically in the similar codes as in Udacity lessons:
+
+'''
+ if color_space != 'RGB':
+    if color_space == 'HSV':
+      feature_image = cv2.cvtColor(image, cv2.COLOR_RGB2HSV)
+    elif color_space == 'LUV':
+      feature_image = cv2.cvtColor(image, cv2.COLOR_RGB2LUV)
+    elif color_space == 'HLS':
+      feature_image = cv2.cvtColor(image, cv2.COLOR_RGB2HLS)
+    elif color_space == 'YUV':
+      feature_image = cv2.cvtColor(image, cv2.COLOR_RGB2YUV)
+    elif color_space == 'YCrCb':
+      feature_image = cv2.cvtColor(image, cv2.COLOR_RGB2YCrCb)
+'''
+
 
 Here is an example using the `YCrCb` color space and HOG parameters of `orientations=8`, `pixels_per_cell=(8, 8)` and `cells_per_block=(2, 2)`:
 

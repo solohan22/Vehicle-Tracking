@@ -5,11 +5,11 @@ The goal of this project is to perform a Histogram of Oriented Gradients (HOG) f
 The labeled data for vehicle and non-vehicle examples to train the classifier come from a combination of the GTI vehicle image database, the KITTI vision benchmark suite, and examples extracted from the project video itself. 
 
 [//]: # (Image References)
-[image1]: ./examples/data.png
-[image2]: ./examples/HOG.jpg
-[image3]: ./examples/sliding-window.jpg
-[image4]: ./examples/detected-window.jpg
-[image5]: ./examples/heatmap.png
+[image1]: ./output_images/data.png
+[image2]: ./output_images/HOG.jpg
+[image3]: ./output_images/sliding-window.jpg
+[image4]: ./output_images/detected-window.jpg
+[image5]: ./output_images/heatmap.png
 [video1]: ./project_video.mp4
 
 

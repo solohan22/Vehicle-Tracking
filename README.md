@@ -54,14 +54,46 @@ I tried different sets of parameters and finalized with colorspace='YCrCb', orie
 
 ####3. Describe how (and identify where in your code) you trained a classifier using your selected HOG features (and color features if you used them).
 
-I trained a linear SVM using...
+In cell 5, I trained a linear SVM using the vehicle and non-vhicle dataset provided by Udacity. I also tested a neural network classifier which is similar to https://github.com/HTuennermann/Vehicle-Detection-and-Tracking, but the training and predicting is much slower (at least one order of magnitude) than SVM, therefore is not realistic for such a task. 
+
+Here are some statistics of the SVM classifier:
+
+```
+100.33 seconds to extract HOG features...
+Feature vector length: 9312
+31.79 seconds to train SVC...
+Test Accuracy of SVC:  0.9878
+SVC predictions:  [ 0.  0.  0.  0.  0.  0.  1.  0.  1.  0.]
+Actual 10 labels:  [ 0.  0.  0.  1.  0.  0.  1.  0.  1.  0.]
+0.04211 seconds to predict 10 labels with SVC
+```
 
 ###Sliding Window Search
 
 ####1. Describe how (and identify where in your code) you implemented a sliding window search.  How did you decide what scales to search and how much to overlap windows?
 
-I decided to search random window positions at random scales all over the image and came up with this (ok just kidding I didn't actually ;):
+I implemented sliding window search mianly in get_boxes() and slide_window() functions. The former is as follows and the latter is similar to the lesson code. 
 
+```Python
+def get_boxes(image):
+    #Create a list to append scan window coordinates
+    boxes = []
+    boxes1 = slide_window(image, x_start_stop=[599, None], y_start_stop=[379, 499], xy_window=(64,64), xy_overlap=(0.75, 0.5))
+    boxes2 = slide_window(image, x_start_stop=[449, None], y_start_stop=[399, 549], xy_window=(128,80), xy_overlap=(0.75, 0.5))
+    boxes3 = slide_window(image, x_start_stop=[299, None], y_start_stop=[419, 699], xy_window=(250,160), xy_overlap=(0.75, 0.5))
+    
+    for i in range (29):
+        chosen1 = np.random.randint(0, len(boxes1))
+        boxes.append(boxes1[chosen1]) 
+    for i in range (25):
+        chosen2 = np.random.randint(0, len(boxes2))
+        boxes.append(boxes2[chosen2])           
+    for i in range (6):
+        chosen3 = np.random.randint(0, len(boxes3))
+        boxes.append(boxes3[chosen3])      
+    return boxes
+
+```
 ![alt text][image3]
 
 ####2. Show some examples of test images to demonstrate how your pipeline is working.  What did you do to optimize the performance of your classifier?

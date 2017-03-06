@@ -111,7 +111,7 @@ Here's a [link to my video result](./result.mp4)
 
 ####2. Describe how (and identify where in your code) you implemented some kind of filter for false positives and some method for combining overlapping bounding boxes.
 
-The video processing is done in function process_video(), in which I recorded the positions of positive detections in each frame of the video. From the positive detections I created a heatmap using add_heat() and then thresholded that map to identify vehicle positions using apply_threshold(). I then identify individual blobs in the heatmap using np.clip() function. I made bounding boxes to cover the area of each blob detected.  
+The video processing is done in function process_video(), in which I recorded the positions of positive detections in each frame of the video. From the positive detections I created a heatmap using add_heat() and then thresholded that map to identify vehicle positions using apply_threshold(). I then identify individual blobs in the heatmap using label() function. I made bounding boxes to cover the area of each blob detected.  
 
 Here's an example result showing the heatmap from a series of frames of video, the result of `scipy.ndimage.measurements.label()` and the bounding boxes then overlaid on the last frame of video:
 

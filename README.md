@@ -37,7 +37,7 @@ I then explored different color spaces and different `skimage.hog()` parameters 
       feature_image = cv2.cvtColor(image, cv2.COLOR_RGB2YCrCb)
 ```
 
-Here is an example using the `YCrCb` color space and HOG parameters of `orientations=8`, `pixels_per_cell=(8, 8)` and `cells_per_block=(2, 2)`:
+In cell 4, I tested the HOG feature using the `YCrCb` color space and HOG parameters `pixels_per_cell=(8, 8)` and `cells_per_block=(2, 2)`:
 
 
 ![alt text][image2]

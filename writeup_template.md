@@ -1,15 +1,8 @@
-##Writeup Template
-###You can use this file as a template for your writeup if you want to submit it as a markdown file, but feel free to use some other method and submit a pdf if you prefer.
-
----
-
 **Vehicle Detection Project**
 
-The goal of this project is the following:
+The goal of this project is to perform a Histogram of Oriented Gradients (HOG) feature extraction on a labeled training set of images and train a classifier Linear SVM classifier. 
 
-Perform a Histogram of Oriented Gradients (HOG) feature extraction on a labeled training set of images and train a classifier Linear SVM classifier. 
-
-Here are links to the labeled data for vehicle and non-vehicle examples to train the classifier. These example images come from a combination of the GTI vehicle image database, the KITTI vision benchmark suite, and examples extracted from the project video itself. You are welcome and encouraged to take advantage of the recently released Udacity labeled dataset to augment your training data.
+The labeled data for vehicle and non-vehicle examples to train the classifier come from a combination of the GTI vehicle image database, the KITTI vision benchmark suite, and examples extracted from the project video itself. 
 
 [//]: # (Image References)
 [image1]: ./examples/car_not_car.png

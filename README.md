@@ -1,4 +1,4 @@
-**Vehicle Detection Project**
+## Vehicle Detection Project**
 
 The goal of this project is to perform a Histogram of Oriented Gradients (HOG) feature extraction on a labeled training set of images and train a classifier Linear SVM classifier. 
 

@@ -23,7 +23,7 @@ I started by reading in all the `vehicle` and `non-vehicle` images in cell 2. I 
 
 I then explored different color spaces and different `skimage.hog()` parameters (`orientations`, `pixels_per_cell`, and `cells_per_block`) in functions get_hog_features() and extract_features(), specifically in the similar codes as in Udacity lessons:
 
-·
+'''Python
  if color_space != 'RGB':
     if color_space == 'HSV':
       feature_image = cv2.cvtColor(image, cv2.COLOR_RGB2HSV)
@@ -35,7 +35,7 @@ I then explored different color spaces and different `skimage.hog()` parameters 
       feature_image = cv2.cvtColor(image, cv2.COLOR_RGB2YUV)
     elif color_space == 'YCrCb':
       feature_image = cv2.cvtColor(image, cv2.COLOR_RGB2YCrCb)
-·
+'''
 
 Here is an example using the `YCrCb` color space and HOG parameters of `orientations=8`, `pixels_per_cell=(8, 8)` and `cells_per_block=(2, 2)`:
 

@@ -98,7 +98,7 @@ def get_boxes(image):
 
 ####2. Show some examples of test images to demonstrate how your pipeline is working.  What did you do to optimize the performance of your classifier?
 
-Ultimately I searched on two scales using YCrCb 3-channel HOG features plus spatially binned color and histograms of color in the feature vector, which provided a nice result.  Here are some example images:
+Ultimately I searched on three scales using YCrCb full-channel HOG features plus spatially binned color and histograms of color in the feature vector, which provides the following example results:
 
 ![alt text][image4]
 ---
@@ -106,25 +106,16 @@ Ultimately I searched on two scales using YCrCb 3-channel HOG features plus spat
 ### Video Implementation
 
 ####1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (somewhat wobbly or unstable bounding boxes are ok as long as you are identifying the vehicles most of the time with minimal false positives.)
-Here's a [link to my video result](./project_video.mp4)
+Here's a [link to my video result](./result.mp4)
 
 
 ####2. Describe how (and identify where in your code) you implemented some kind of filter for false positives and some method for combining overlapping bounding boxes.
 
-I recorded the positions of positive detections in each frame of the video.  From the positive detections I created a heatmap and then thresholded that map to identify vehicle positions.  I then used `scipy.ndimage.measurements.label()` to identify individual blobs in the heatmap.  I then assumed each blob corresponded to a vehicle.  I constructed bounding boxes to cover the area of each blob detected.  
+The video processing is done in function process_video(), in which I recorded the positions of positive detections in each frame of the video. From the positive detections I created a heatmap using add_heat() and then thresholded that map to identify vehicle positions using apply_threshold(). I then identify individual blobs in the heatmap using np.clip() function. I made bounding boxes to cover the area of each blob detected.  
 
 Here's an example result showing the heatmap from a series of frames of video, the result of `scipy.ndimage.measurements.label()` and the bounding boxes then overlaid on the last frame of video:
 
-### Here are six frames and their corresponding heatmaps:
-
 ![alt text][image5]
-
-### Here is the output of `scipy.ndimage.measurements.label()` on the integrated heatmap from all six frames:
-![alt text][image6]
-
-### Here the resulting bounding boxes are drawn onto the last frame in the series:
-![alt text][image7]
-
 
 
 ---
@@ -133,5 +124,8 @@ Here's an example result showing the heatmap from a series of frames of video, t
 
 ####1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
 
-Here I'll talk about the approach I took, what techniques I used, what worked and why, where the pipeline might fail and how I might improve it if I were going to pursue this project further.  
+Initially, I was all about to use a Deep Neural Netowrk to do the training and predictinng, but the result turns out to be far from efficient. It seems that the deep learning approach serves as a black box and can be easily implemented and tested, but the efficiency for a real-time tracking task like this is really an issue. It might be due to the actual implementation using Keras and Python, I am wondering it could be improved using C++. 
+
+The major diffculty I faced in this project is to tweak this large amount of parameters, it is a bit confusing without any prior experience. Thus I started with similar parameters as those in the lesssons and try to tweak them one at a time and finally got it work. The pipeline tends to work well on the video provided, and it could be improved by adding more training and testing data, maybe using the new Udacity data in csv file, and do better filtering over frames to reduce the jittering. 
+
 

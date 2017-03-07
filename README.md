@@ -103,7 +103,7 @@ I also tested a neural network classifier which is similar to https://github.com
 
 ####1. Describe how (and identify where in your code) you implemented a sliding window search.  How did you decide what scales to search and how much to overlap windows?
 
-I implemented sliding window search mianly in get_boxes() and slide_window() functions. The former is as follows and the latter is similar to the lesson code. 
+I implemented sliding window search mianly in get_boxes() which calls slide_window() function. I search random windows at certain scales over certain areas using the function slide_window(image, x_start_stop, y_start_stop, xy_window, xy_overlap) from lesson codes with different parameters. The get_boxes() is shown below. 
 
 ```Python
 def get_boxes(image):
@@ -125,8 +125,6 @@ def get_boxes(image):
     return boxes
 
 ```
-
-In the function above, I search random windows at certain scales over certain areas using the function ```slide_window(image, x_start_stop, y_start_stop, xy_window, xy_overlap)``` from lesson codes with different parameters.
 
 ![alt text][image3]
 

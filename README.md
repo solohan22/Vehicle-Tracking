@@ -167,6 +167,9 @@ The video processing is done in function ```process_video()```, in which I recor
 Specifically for the filtering part, I declare a global variable heat_list in cell 9 before process the video. 
 ```
 heat_list=[]
+
+clip = VideoFileClip("test_video.mp4")
+......
 ```
 And in function ```process_video()``` in cell 8, I append heat to heat_list if the current length of heat_list is less than filtering depth 10, otherwise pop the first heat and append new heat into the list.
 ```

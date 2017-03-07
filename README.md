@@ -21,7 +21,7 @@ I started by reading in all the `vehicle` and `non-vehicle` images in cell 2. I 
 
 ![alt text][image1]
 
-I then explored different color spaces and different `skimage.hog()` parameters (`orientations`, `pixels_per_cell`, and `cells_per_block`) in functions get_hog_features() and extract_features(), specifically in the similar codes as in Udacity lessons:
+I then explored different color spaces and different `skimage.hog()` parameters (`orientations`, `pixels_per_cell`, and `cells_per_block`) in functions ```get_hog_features()``` and ```extract_features()```, specifically in the similar codes as in Udacity lessons:
 
 ```Python
  if color_space != 'RGB':
@@ -103,7 +103,7 @@ I also tested a neural network classifier which is similar to https://github.com
 
 ####1. Describe how (and identify where in your code) you implemented a sliding window search.  How did you decide what scales to search and how much to overlap windows?
 
-I implemented sliding window search mianly in get_boxes() which calls slide_window() function. I search random windows at certain scales over certain areas using the function slide_window(image, x_start_stop, y_start_stop, xy_window, xy_overlap) from lesson codes with different parameters. The get_boxes() is shown below. 
+I implemented sliding window search mianly in ```get_boxes()``` which calls slide_window() function. I search random windows at certain scales over certain areas using the function ```slide_window(image, x_start_stop, y_start_stop, xy_window, xy_overlap)``` from lesson codes with different parameters. The ```get_boxes()``` is shown below. 
 
 ```Python
 def get_boxes(image):
@@ -116,7 +116,7 @@ def get_boxes(image):
     for i in range (29):
         chosen1 = np.random.randint(0, len(boxes1))
         boxes.append(boxes1[chosen1]) 
-    for i in range (25):
+    for i in range (19):
         chosen2 = np.random.randint(0, len(boxes2))
         boxes.append(boxes2[chosen2])           
     for i in range (6):
@@ -162,7 +162,24 @@ You could directly download the [video](./result.mp4) in this repo or watch it [
 
 ####2. Describe how (and identify where in your code) you implemented some kind of filter for false positives and some method for combining overlapping bounding boxes.
 
-The video processing is done in function process_video(), in which I recorded the positions of positive detections in each frame of the video. From the positive detections I created a heatmap using add_heat() and then thresholded that map to identify vehicle positions using apply_threshold(). I then identify individual blobs in the heatmap using label() function. I made bounding boxes to cover the area of each blob detected.  
+The video processing is done in function ```process_video()```, in which I recorded the positions of positive detections in each frame of the video. From the positive detections I created a heatmap using ```add_heat()```. I integrate heat maps over 10 frames of video, such that areas of multiple detections get "hot", while transient false positives stay "cool". Then I simply threshold the heatmap to remove false positives using ```apply_threshold()```. I then identify individual blobs in the heatmap using ```label()``` function. I made bounding boxes to cover the area of each blob detected using ```draw_labeled_bboxes()```.  
+
+heat_list=[]
+
+```
+# add heat to each box in box list
+    heat = add_heat(heat,find_car_boxes)
+    
+    if len(heat_list)<10:
+        heat_list.append(heat)
+    else:
+        heat_list.pop(0)
+        heat_list.append(heat)
+    heat=sum(heat_list)
+    
+    # apply threshold to help remove false positives
+    heat = apply_threshold(heat,2)
+```
 
 Here's an example result showing the heatmap from a series of frames of video, the result of `scipy.ndimage.measurements.label()` and the bounding boxes then overlaid on the last frame of video:
 
@@ -177,6 +194,6 @@ Here's an example result showing the heatmap from a series of frames of video, t
 
 Initially, I was all about to use a Deep Neural Netowrk to do the training and predictinng, but the result turns out to be far from efficient. It seems that the deep learning approach serves as a black box and can be easily implemented and tested, but the efficiency for a real-time tracking task like this is really an issue. It might be due to the actual implementation using Keras and Python, I am wondering it could be improved using C++. 
 
-The major diffculty I faced in this project is to tweak this large amount of parameters, it is a bit confusing without any prior experience. Thus I started with similar parameters as those in the lesssons and try to tweak them one at a time and finally got it work. The pipeline tends to work well on the video provided, and it could be improved by adding more training and testing data, maybe using the new Udacity data in csv file, and do better filtering over frames to reduce the jittering. 
+The major diffculty I faced in this project is to tweak a lot of parameters, it is a bit confusing without any prior experience. I started with similar parameters as those in the lesssons and try to tweak them one at a time and finally got it work. The pipeline tends to work well on the video provided, and it could be improved by adding more training and testing data, maybe using the new Udacity data in csv file, and do better filtering over frames. 
 
-
+The potenail issue remaining here is that the bounding boxes are somewhat jittering across frames, I tried to fix it by increasing the heat threshold, but meanwhile it leads to smaller boxes which doesn't enclose the cars very well. Also it tends to give smaller and more jittering boxes on the white car than the black car. Therefore, I think my pipeline will likely fail on cars with brighter colors and when there are more traffic on the road. Currently I have no better solution to make it more robust, since otherwise I would have tried it. But intuitively, my idea is to maybe try to generate more boudning boxes with bigger/smaller sizes? Or maybe I can modify the heat map algorithm to detect very close hot areas and merged somewhat them into one big box. 

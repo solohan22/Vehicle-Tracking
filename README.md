@@ -7,7 +7,7 @@ The labeled data for vehicle and non-vehicle examples to train the classifier co
 [//]: # (Image References)
 [image1]: ./output_images/data.png
 [image2]: ./output_images/HOG.png
-[image3]: ./output_images/sliding-window.png
+[image3]: ./output_images/sliding-window2.png
 [image4]: ./output_images/detected-window.png
 [image5]: ./output_images/heatmap.png
 [video1]: ./project_video.mp4

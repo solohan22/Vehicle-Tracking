@@ -164,10 +164,12 @@ You could directly download the [video](./result.mp4) in this repo or watch it [
 
 The video processing is done in function ```process_video()```, in which I recorded the positions of positive detections in each frame of the video. From the positive detections I created a heatmap using ```add_heat()```. I integrate heat maps over 10 frames of video, such that areas of multiple detections get "hot", while transient false positives stay "cool". Then I simply threshold the heatmap to remove false positives using ```apply_threshold()```. I then identify individual blobs in the heatmap using ```label()``` function. I made bounding boxes to cover the area of each blob detected using ```draw_labeled_bboxes()```.  
 
-heat_list=[]
-
+Specifically for the filtering part, I declare a global variable heat_list in cell 9 before process the video. 
 ```
-# add heat to each box in box list
+heat_list=[]
+```
+And in function ```process_video()``` in cell 8, I append heat to heat_list if the current length of heat_list is less than filtering depth 10, otherwise pop the first heat and append new heat into the list.
+```
     heat = add_heat(heat,find_car_boxes)
     
     if len(heat_list)<10:
@@ -176,8 +178,7 @@ heat_list=[]
         heat_list.pop(0)
         heat_list.append(heat)
     heat=sum(heat_list)
-    
-    # apply threshold to help remove false positives
+
     heat = apply_threshold(heat,2)
 ```
 

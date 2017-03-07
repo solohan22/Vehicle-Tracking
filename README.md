@@ -48,10 +48,10 @@ I tried different sets of parameters and finalized with colorspace='YCrCb', orie
 
 | Color Space   | Orientations  | Pixels_per_cell| Cells_per_block| HOG channel| Accuracy |
 | ------------- |:-------------:| -----:| -------------: |:-------------:| -----------:|
-| N/A    | 9| 8 | 2     | 0 | 0.92 | 
-| RGB    | 9| 8 | 2     | 0 | 0.95 | 
-| YUV    | 8| 8 | 2     | 0 | 0.96 | 
-| YCrCb | 8| 7 | 2     | 0 | 0.99 | 
+| N/A    | 9| 8 | 2     | 0 | 0.91 | 
+| RGB    | 9| 8 | 2     | 0 | 0.94 | 
+| YUV    | 8| 8 | 2     | All | 0.96 | 
+| YCrCb | 8| 7 | 2     | All | 0.99 | 
 
 ####3. Describe how (and identify where in your code) you trained a classifier using your selected HOG features (and color features if you used them).
 
@@ -136,7 +136,7 @@ Ultimately I searched on three scales using YCrCb full-channel HOG features plus
 
 ![alt text][image4]
 
-I have build the heat map over frames at a time and then thresholded them by calling 
+To reduce false positives, I make the heat map over frames at a time and then thresholded them by calling 
 ```
     heat = np.zeros_like(image[:,:,0]).astype(np.float)
     heat = add_heat(heat,find_car_boxes)
@@ -144,14 +144,15 @@ I have build the heat map over frames at a time and then thresholded them by cal
     heatmap = np.clip(heat, 0, 255)
     labels = label(heatmap)
 ```
-And like discussed in the previous sections, I tried to tweak different configurations of classifier parameters to improve the reliability of the classifier:
+
+And like discussed in the previous sections, I also tried to tweak different configurations of classifier parameters to improve the reliability of the classifier:
 
 | Color Space   | Orientations  | Pixels_per_cell| Cells_per_block| HOG channel| Accuracy |
 | ------------- |:-------------:| -----:| -------------: |:-------------:| -----------:|
-| N/A    | 9| 8 | 2     | 0 | 0.92 | 
-| RGB    | 9| 8 | 2     | 0 | 0.95 | 
-| YUV    | 8| 8 | 2     | 0 | 0.96 | 
-| YCrCb | 8| 7 | 2     | 0 | 0.99 | 
+| N/A    | 9| 8 | 2     | 0 | 0.91 | 
+| RGB    | 9| 8 | 2     | 0 | 0.94 | 
+| YUV    | 8| 8 | 2     | All | 0.96 | 
+| YCrCb | 8| 7 | 2     | All | 0.99 | 
 
 ---
 

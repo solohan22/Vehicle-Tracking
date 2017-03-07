@@ -49,6 +49,7 @@ I tried different sets of parameters and finalized with colorspace='YCrCb', orie
 | Color Space   | Orientations  | Pixels_per_cell| Cells_per_block| HOG channel| Accuracy |
 | ------------- |:-------------:| -----:| -------------: |:-------------:| -----------:|
 | N/A    | 9| 8 | 2     | 0 | 0.92 | 
+| RGB    | 9| 8 | 2     | 0 | 0.95 | 
 | YUV    | 8| 8 | 2     | 0 | 0.96 | 
 | YCrCb | 8| 7 | 2     | 0 | 0.99 | 
 
@@ -124,6 +125,9 @@ def get_boxes(image):
     return boxes
 
 ```
+
+In the function above, I search random windows at certain scales over certain areas using the function ```slide_window(image, x_start_stop, y_start_stop, xy_window, xy_overlap)``` from lesson codes with different parameters.
+
 ![alt text][image3]
 
 ####2. Show some examples of test images to demonstrate how your pipeline is working.  What did you do to optimize the performance of your classifier?

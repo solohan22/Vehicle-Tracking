@@ -135,6 +135,24 @@ In the function above, I search random windows at certain scales over certain ar
 Ultimately I searched on three scales using YCrCb full-channel HOG features plus spatially binned color and histograms of color in the feature vector, which provides the following example results:
 
 ![alt text][image4]
+
+I have build the heat map over frames at a time and then thresholded them by calling 
+```
+    heat = np.zeros_like(image[:,:,0]).astype(np.float)
+    heat = add_heat(heat,find_car_boxes)
+    heat = apply_threshold(heat,1)
+    heatmap = np.clip(heat, 0, 255)
+    labels = label(heatmap)
+```
+And like discussed in the previous sections, I tried to tweak different configurations of classifier parameters to improve the reliability of the classifier:
+
+| Color Space   | Orientations  | Pixels_per_cell| Cells_per_block| HOG channel| Accuracy |
+| ------------- |:-------------:| -----:| -------------: |:-------------:| -----------:|
+| N/A    | 9| 8 | 2     | 0 | 0.92 | 
+| RGB    | 9| 8 | 2     | 0 | 0.95 | 
+| YUV    | 8| 8 | 2     | 0 | 0.96 | 
+| YCrCb | 8| 7 | 2     | 0 | 0.99 | 
+
 ---
 
 ### Video Implementation

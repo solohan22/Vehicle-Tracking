@@ -171,7 +171,7 @@ heat_list=[]
 clip = VideoFileClip("test_video.mp4")
 ......
 ```
-And in function ```process_video()``` in cell 8, I append heat to heat_list if the current length of heat_list is less than filtering depth 10, otherwise pop the first heat and append new heat into the list.
+And in function ```process_video()``` in cell 8, right after getting the heat using ```add_heat()```, I append heat to heat_list if the current length of heat_list is less than filtering depth 10, otherwise pop the first heat and append new heat into the list. And then call ```apply_threshold()``` right after filtering codes.
 ```
     heat = add_heat(heat,find_car_boxes)
     
@@ -182,7 +182,7 @@ And in function ```process_video()``` in cell 8, I append heat to heat_list if t
         heat_list.append(heat)
     heat=sum(heat_list)
 
-    heat = apply_threshold(heat,2)
+    heat = apply_threshold(heat,3)
 ```
 
 Here's an example result showing the heatmap from a series of frames of video, the result of `scipy.ndimage.measurements.label()` and the bounding boxes then overlaid on the last frame of video:

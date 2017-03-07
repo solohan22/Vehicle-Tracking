@@ -54,8 +54,35 @@ I tried different sets of parameters and finalized with colorspace='YCrCb', orie
 
 ####3. Describe how (and identify where in your code) you trained a classifier using your selected HOG features (and color features if you used them).
 
-In cell 5, I trained a linear SVM using the vehicle and non-vhicle dataset provided by Udacity. I also tested a neural network classifier which is similar to https://github.com/HTuennermann/Vehicle-Detection-and-Tracking, but the training and predicting is much slower (at least one order of magnitude) than SVM, therefore is not realistic for such a task. 
-
+In cell 5, I trained a linear SVM using the vehicle and non-vhicle dataset provided by Udacity. Specifically, I extract the features of car and non-car data
+```
+car_features = extract_features(cars, color_space=colorspace, orient=orient, 
+                        pix_per_cell=pix_per_cell, cell_per_block=cell_per_block, hog_channel=hog_channel)
+notcar_features = extract_features(notcars, color_space=colorspace, orient=orient, 
+                        pix_per_cell=pix_per_cell, cell_per_block=cell_per_block, hog_channel=hog_channel)
+```
+And then scale and normalize the data
+```
+X = np.vstack((car_features, notcar_features)).astype(np.float64)                        
+X_scaler = StandardScaler().fit(X)
+scaled_X = X_scaler.transform(X)
+```
+Split the data for training and testing
+```
+y = np.hstack((np.ones(len(car_features)), np.zeros(len(notcar_features))))
+rand_state = np.random.randint(0, 100)
+X_train, X_test, y_train, y_test = train_test_split(scaled_X, y, test_size=0.2, random_state=rand_state)
+```
+Traing the classifier
+```
+svc = LinearSVC()
+svc.fit(X_train, y_train)
+```
+And lastly test it on testing set
+```
+train_acc = svc.score(X_train,y_train)
+test_acc = svc.score(X_test,y_test)
+```
 Here are some statistics of the SVM classifier:
 
 ```
@@ -67,6 +94,9 @@ SVC predictions:  [ 0.  0.  0.  0.  0.  0.  1.  0.  1.  0.]
 Actual 10 labels:  [ 0.  0.  0.  1.  0.  0.  1.  0.  1.  0.]
 0.04211 seconds to predict 10 labels with SVC
 ```
+
+I also tested a neural network classifier which is similar to https://github.com/HTuennermann/Vehicle-Detection-and-Tracking, but the training and predicting is much slower (at least one order of magnitude) than SVM, therefore is not realistic for such a task. 
+
 
 ###Sliding Window Search
 
